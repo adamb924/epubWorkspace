@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/" lang="en">
+        <file alias="default.css">resources/default.css</file>
+        <file alias="CharisSILB.ttf">resources/CharisSILB.ttf</file>
+        <file alias="CharisSILBI.ttf">resources/CharisSILBI.ttf</file>
+        <file alias="CharisSILI.ttf">resources/CharisSILI.ttf</file>
+        <file alias="CharisSILR.ttf">resources/CharisSILR.ttf</file>
+        <file alias="template.zip">resources/template.zip</file>
+        <file alias="default-nocharis.css">resources/default-nocharis.css</file>
+    </qresource>
+</RCC>
