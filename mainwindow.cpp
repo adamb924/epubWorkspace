@@ -563,14 +563,15 @@ void MainWindow::saveEpub()
 	stripped.remove(QRegExp("<style type=\"text/css\">*</style>",Qt::CaseSensitive,QRegExp::Wildcard));
 	stripped.replace("<meta name=\"qrichtext\" content=\"1\" />","<link rel=\"stylesheet\" type=\"text/css\" href=\"default.css\" />"); // just a convenience to eliminate one and place the other at the same time
 	stripped.replace("<head>","<head><title></title>");
-        stripped.remove(QRegExp("name=\"*\"",Qt::CaseSensitive,QRegExp::Wildcard));
+        /*
+//        stripped.remove(QRegExp("name=\"*\"",Qt::CaseSensitive,QRegExp::Wildcard));
 
+*/
         if(stripLinks->isChecked())
         {
             stripped.remove(QRegExp("<a\\b[^>]*>",Qt::CaseInsensitive));
             stripped.remove(QRegExp("</a>",Qt::CaseInsensitive));
         }
-
 //        qDebug() << stripped;
 
 	*(tmpstream) << stripped;
