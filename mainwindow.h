@@ -74,6 +74,7 @@ private slots:
     void addToManifest();
     void removeFromManifest();
 
+    void addAllToToc();
     void removeFromToc();
 
     void saveEpub();

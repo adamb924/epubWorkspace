@@ -60,9 +60,10 @@ MainWindow::MainWindow(QWidget *parent) :
     hlayout_manifest->addStretch(1);
 
     QHBoxLayout *hlayout_toc = new QHBoxLayout;
-    QPushButton *removeFromToc;
-    removeFromToc = new QPushButton(tr("Remove"));
+    QPushButton *removeFromToc = new QPushButton(tr("Remove"));
+    QPushButton *addAllToToc = new QPushButton(tr("Add all"));
     hlayout_toc->addStretch(1);
+    hlayout_toc->addWidget(addAllToToc,0);
     hlayout_toc->addWidget(removeFromToc,0);
     hlayout_toc->addStretch(1);
 
@@ -82,8 +83,6 @@ MainWindow::MainWindow(QWidget *parent) :
     toc->viewport()->setAcceptDrops(true);
     toc->setDragDropMode( QAbstractItemView::DragDrop );
     toc->setEditTriggers(QAbstractItemView::CurrentChanged);
-
-//    qDebug() << "MainWindow::MainWindow" << "here";
 
     QLabel *tmp;
 
@@ -168,6 +167,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // spine connections
     connect(removeFromToc,SIGNAL(clicked()),this,SLOT(removeFromToc()));
+    connect(addAllToToc,SIGNAL(clicked()),this,SLOT(addAllToToc()));
 
     setupMenu();
     this->setWindowTitle(tr("ePub Workspace"));
@@ -271,6 +271,7 @@ void MainWindow::addToManifest()
 	    return;
 	}
 	ok = true;
+
 	for(i=0; i<manifest->topLevelItemCount(); i++)
 	{
 	    if( toID(text) == toID(manifest->topLevelItem(i)->text(0)) )
@@ -283,7 +284,7 @@ void MainWindow::addToManifest()
 	    QMessageBox::critical(this,tr("Error"),tr("No, you must enter a <i>unique</i> identifier, different from all the others, which is not differentiated from other identifiers only by spaces."));
 	else
 	{
-            ManifestItem *tmp = new ManifestItem( toID(text) , text + ".xml", "" );
+            ManifestItem *tmp = new ManifestItem( toID(text) , toID(text) + ".xml", "" );
             tmp->setText(0, text);
             manifest->addTopLevelItem(tmp);
 	    manifest->setCurrentItem(manifest->topLevelItem(manifest->topLevelItemCount()-1));
@@ -337,6 +338,16 @@ void MainWindow::saveText(QTreeWidgetItem *current, QTreeWidgetItem *previous )
         setCurrentHtml(cCurrent->fileContent);
     }
 //    qDebug() << "MainWindow::saveText END";
+}
+
+void MainWindow::addAllToToc()
+{
+    for(int i=0; i<manifest->topLevelItemCount(); i++)
+    {
+        QTreeWidgetItem *tmp = new QTreeWidgetItem(toc);
+        tmp->setText(0,manifest->topLevelItem(i)->text(0));
+        toc->addTopLevelItem( tmp );
+    }
 }
 
 void MainWindow::removeFromToc()
@@ -736,7 +747,8 @@ int MainWindow::writeNavPoint(QTreeWidgetItem *current, QXmlStreamWriter *ncx, i
 
 QString MainWindow::toID(QString string)
 {
-    return string.replace(" ","");
+//    qDebug() << string << string.replace(QRegExp("\\W"),"");
+    return string.replace(QRegExp("\\W"),"");
 }
 
 void MainWindow::updateOtherEditor(int current)
