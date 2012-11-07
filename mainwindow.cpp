@@ -39,8 +39,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QHBoxLayout *hlayout = new QHBoxLayout;
     QVBoxLayout *vlayout = new QVBoxLayout;
 
-//    qDebug() << "MainWindow::MainWindow" << "here";
-
     QHBoxLayout *hlayout_metadata = new QHBoxLayout;
     QPushButton *addMetadata, *removeMetadata;
     addMetadata = new QPushButton(tr("Add"));
@@ -299,34 +297,19 @@ void MainWindow::removeFromManifest()
     for(int i=0; i<toc->topLevelItemCount(); i++)
         deleteTocReferencesTo( (TocItem*)toc->topLevelItem(i) , item->id );
 
-//    qDebug() << "deleting" << item;
     delete item;
-//    qDebug() << "deleted" << item;
 }
 
 void MainWindow::saveText(QTreeWidgetItem *current, QTreeWidgetItem *previous )
 {
-//    qDebug() << "MainWindow::saveText BEGIN";
-
     ManifestItem *cCurrent = (ManifestItem*)current;
     ManifestItem *cPrevious = (ManifestItem*)previous;
 
-//    qDebug() << cCurrent << cPrevious;
-
     if(manifest->indexOfTopLevelItem(cPrevious) == -1) // this can happen when the previous item was just deleted
         cPrevious = 0;
-    else
-        qDebug() << cPrevious->id;
 
     if( cPrevious != 0 )
-    {
-/*
-        qDebug() << "about to try to save" << manifest->indexOfTopLevelItem(cPrevious);
-        qDebug() << currentHtml().left(20);
-        qDebug() << "just about to try to save" << manifest->indexOfTopLevelItem(cPrevious) << cPrevious->id;
-*/
         cPrevious->fileContent = currentHtml();
-    }
     if( cCurrent == 0 ) // there's no file content
     {
         tabs->setEnabled(false);
@@ -337,7 +320,6 @@ void MainWindow::saveText(QTreeWidgetItem *current, QTreeWidgetItem *previous )
         tabs->setEnabled(true);
         setCurrentHtml(cCurrent->fileContent);
     }
-//    qDebug() << "MainWindow::saveText END";
 }
 
 void MainWindow::addAllToToc()
