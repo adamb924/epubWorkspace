@@ -1,8 +1,7 @@
 # -------------------------------------------------
 # Project created by QtCreator 2010-10-26T11:16:33
 # -------------------------------------------------
-QT += xml \
-    xmlpatterns
+QT += gui widgets xml xmlpatterns
 TARGET = epubWorkspace
 TEMPLATE = app
 SOURCES += main.cpp \
